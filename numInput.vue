@@ -10,8 +10,8 @@
         </div>
         <div class="keyboard" v-if="keyboardShow">
             <div>
-                <div class="keyboard-row" v-for="(item,rows) in carNum">
-                    <button class="keyboard-row-item" v-for="(i) in item.name" @click="btnWordClick(rows,i)">{{i}}
+                <div class="keyboard-row" v-for="(item,rows) in carNum" :key="item.id">
+                    <button class="keyboard-row-item" v-for="(i) in item.name" :key="i.id" @click="btnWordClick(rows,i)">{{i}}
                     </button>
                 </div>
                 <div class="keyboard-row">
@@ -30,6 +30,7 @@ export default {
     data () { 
     　　return {
     　　　　key: '1',
+           numPlate:0,
            keyboardShow: false,
     　　　　numOne: '',
     　　　　numTwo: '',
@@ -71,7 +72,7 @@ export default {
     　　　　　　document.getElementById('numSix').click()
     　　　　} else if (this.key === 6) {
     　　　　　　this.numSix = i
-               this.keyboardShow = false
+               this.completeClick ()
     　　　　}　
     　　},
     　　// 输入框选择
@@ -112,7 +113,9 @@ export default {
     　　　　this.isNumFour = false
     　　　　this.isNumFive = false
     　　　　this.isNumSix = false
-    　　　　this.keyboardShow = false
+    　　　　this.keyboardShow = false;
+            this.numPlate=this.numOne+this.numTwo+this.numThree+this.numFour+this.numFive+this.numSix;
+            this.$emit('putNum',this.numPlate)
     　　},
     　　// 键盘点击'删除'
     　　clearClick () {
